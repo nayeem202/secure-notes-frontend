@@ -108,6 +108,10 @@ function setAuthMode(register) {
   fields(form).username.required = register;
   fields(form).interests.disabled = !register;
   fields(form).email.type = register ? 'email' : 'text';
+  fields(form).email.placeholder = register
+    ? 'e.g. name@example.com'
+    : 'Enter your email or username';
+  fields(form).password.placeholder = register ? 'At least 6 characters' : 'Enter your password';
   fields(form).password.minLength = register ? 6 : 1;
   fields(form).password.autocomplete = register ? 'new-password' : 'current-password';
   $('auth-identity-label').childNodes[0].textContent = register ? 'Email' : 'Email or username';
