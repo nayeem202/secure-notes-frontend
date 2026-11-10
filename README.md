@@ -1,5 +1,16 @@
 # Secure Notes Frontend
 
+## Live deployment
+
+- Frontend: [https://secure-notes-frontend-rho.vercel.app](https://secure-notes-frontend-rho.vercel.app)
+- API: [https://secure-notes-backend-delta.vercel.app/api](https://secure-notes-backend-delta.vercel.app/api)
+- Database readiness: [https://secure-notes-backend-delta.vercel.app/health/ready](https://secure-notes-backend-delta.vercel.app/health/ready)
+- Frontend repository: https://github.com/nayeem202/secure-notes-frontend
+- Backend repository: https://github.com/nayeem202/secure-notes-backend
+
+The production URLs are public and do not require a Vercel account. Register through the website to use private notes. Admin setup is documented in the backend README.
+
+
 Standalone vanilla HTML, CSS, and JavaScript frontend for the Secure Notes API. This folder is an independent project and can be submitted or deployed separately from `secure-notes-backend`.
 
 ## Local run
