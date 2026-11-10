@@ -1,7 +1,7 @@
 'use strict';
 
 const $ = (id) => document.getElementById(id);
-const apiBaseUrl = (window.SECURE_NOTES_API_BASE_URL || '/api').replace(/\/$/, '');
+const apiBaseUrl = (window.SECURE_NOTES_API_BASE_URL || '/api/v1').replace(/\/$/, '');
 const state = {
   user: null,
   accessToken: null,

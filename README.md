@@ -8,13 +8,13 @@ Standalone HTML, CSS, and JavaScript frontend for the Secure Notes API. It serve
 | ----------------------------- | ----------------------------------------------------------------------------------- |
 | Website                       | [Secure Notes](https://secure-notes-frontend-rho.vercel.app)                        |
 | Backend repository and setup  | [nayeem202/secure-notes-backend](https://github.com/nayeem202/secure-notes-backend) |
-| Backend API base              | `https://secure-notes-backend-delta.vercel.app/api`                                 |
+| Backend API base              | `https://secure-notes-backend-delta.vercel.app/api/v1`                              |
 | Interactive API documentation | [Swagger UI](https://secure-notes-backend-delta.vercel.app/docs)                    |
 | OpenAPI document              | [openapi.json](https://secure-notes-backend-delta.vercel.app/openapi.json)          |
-| Public API example            | [GET /api/posts](https://secure-notes-backend-delta.vercel.app/api/posts)           |
+| Public API example            | [GET /api/v1/posts](https://secure-notes-backend-delta.vercel.app/api/v1/posts)     |
 | Database readiness            | [GET /health/ready](https://secure-notes-backend-delta.vercel.app/health/ready)     |
 
-The website is public and does not require a Vercel account. Register to use private notes, or sign in with the reviewer credentials provided in the private submission email to test administrator views. The backend base URL is a prefix; GET `/api` itself is not a route.
+The website is public and does not require a Vercel account. Register to use private notes, or sign in with the reviewer credentials provided in the private submission email to test administrator views. The backend base URL is a prefix; GET `/api/v1` itself is not a route.
 
 ## Run locally
 
@@ -28,7 +28,7 @@ npm run dev
 
 For an existing checkout, run `npm run dev` from this directory. Running the development server uses Node.js built-ins. In Windows PowerShell, use `npm.cmd run dev` if script execution policy blocks `npm.ps1`.
 
-Open **http://localhost:5500**. The development server binds to `127.0.0.1:5500` and the frontend calls `http://localhost:3000/api`. Backend `.env` should contain:
+Open **http://localhost:5500**. The development server binds to `127.0.0.1:5500` and the frontend calls `http://localhost:3000/api/v1`. Backend `.env` should contain:
 
 ```dotenv
 APP_ORIGIN=http://localhost:5500
@@ -42,10 +42,10 @@ Use the exact configured frontend origin, since CORS distinguishes `localhost` f
 
 [config.js](config.js) chooses the API base using the page hostname:
 
-| Frontend hostname          | API base                                            |
-| -------------------------- | --------------------------------------------------- |
-| `localhost` or `127.0.0.1` | `http://localhost:3000/api`                         |
-| Other hostnames            | `https://secure-notes-backend-delta.vercel.app/api` |
+| Frontend hostname          | API base                                               |
+| -------------------------- | ------------------------------------------------------ |
+| `localhost` or `127.0.0.1` | `http://localhost:3000/api/v1`                         |
+| Other hostnames            | `https://secure-notes-backend-delta.vercel.app/api/v1` |
 
 The production URL is already configured. To use another backend, edit the appropriate value in `config.js` and set that backend's `APP_ORIGIN` to the exact frontend origin without a trailing slash.
 
