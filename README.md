@@ -81,7 +81,7 @@ npm run verify
 
 This runs ESLint, Prettier checks, and JavaScript syntax checks. Use `npm run format` to apply formatting or `npm run lint:fix` for available automatic lint fixes.
 
-[CI](.github/workflows/ci.yml) runs the same checks on every push and pull request using Node.js 24, read-only workflow permissions, and actions pinned to commit SHAs. Browser and full API verification results are recorded in the backend's [VERIFICATION.md](https://github.com/nayeem202/secure-notes-backend/blob/main/VERIFICATION.md).
+[CI](.github/workflows/ci.yml) is configured to run the same checks on every push and pull request using Node.js 24, read-only workflow permissions, and actions pinned to commit SHAs. Browser and full API verification results are recorded in the backend's [VERIFICATION.md](https://github.com/nayeem202/secure-notes-backend/blob/main/VERIFICATION.md).
 
 | File             | Purpose                                   |
 | ---------------- | ----------------------------------------- |
