@@ -22,6 +22,12 @@ Open `http://localhost:5500`. The local frontend calls `http://localhost:3000/ap
 
 On Linux, run `npm run dev` from this directory after starting the backend, then open `http://localhost:5500`.
 
+## Deploy on Vercel
+
+Import this repository as a separate project with Framework Preset **Other**. The included `vercel.json` serves the root without a build. Replace the backend placeholder in `config.js` with the live HTTPS API URL ending in `/api`. Set backend `APP_ORIGIN` to this frontend's exact production origin.
+
+Verify the production URL in a private browser window without a Vercel session. The reviewer must be able to load the page and use its registration/login form without signing in to Vercel.
+
 ## Deploy the frontend
 
 1. Import `nayeem202/secure-notes-frontend` into Netlify as a static site. The included `netlify.toml` sets the publish directory to the repository root; no build command is needed.

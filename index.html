@@ -21,7 +21,7 @@
       <h2 id="auth-title">Sign in</h2>
       <form id="auth-form">
         <label id="register-name" hidden>Name<input name="name" autocomplete="name" minlength="2" maxlength="80" disabled></label>
-        <label id="register-username" hidden>Username<input name="username" autocomplete="username" minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._-]{1,28}[A-Za-z0-9]" placeholder="e.g. nayeem.ahmed" disabled></label>
+        <label id="register-username" hidden>Username<input name="username" autocomplete="username" minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]" placeholder="e.g. nayeem.ahmed" disabled></label>
         <label id="auth-identity-label">Email or username<input name="email" type="text" autocomplete="username" maxlength="254" required></label>
         <label>Password<input name="password" type="password" autocomplete="current-password" maxlength="72" required></label>
         <label id="register-interests" hidden>Interests, separated by commas<input name="interests" placeholder="chess, reading" disabled></label>
@@ -71,7 +71,7 @@
     <section id="lookup-panel" class="panel" hidden>
       <h2>Posts by user</h2><p>Find a user's public posts. You can also select an author from the public feed.</p>
       <form id="lookup-form" class="card">
-        <label>Username<input name="username" required minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._-]{1,28}[A-Za-z0-9]" placeholder="e.g. nayeem.ahmed"></label>
+        <label>Username<input name="username" required minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]" placeholder="e.g. nayeem.ahmed"></label>
         <button type="submit">Load user posts</button>
       </form>
       <p id="lookup-summary"></p><div id="lookup-list" class="records"></div><div id="lookup-pagination" class="pagination"></div>
@@ -81,7 +81,7 @@
       <h2>My account</h2><p id="account-details"></p>
       <form id="profile-form" class="card">
         <label>Name<input name="name" required minlength="2" maxlength="80"></label>
-        <label>Username<input name="username" required minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._-]{1,28}[A-Za-z0-9]"></label>
+        <label>Username<input name="username" required minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]"></label>
         <label>Interests, separated by commas<input name="interests"></label>
         <button type="submit">Update profile</button>
       </form>
@@ -98,7 +98,7 @@
       <form id="user-form" class="card">
         <input name="id" type="hidden"><h3 id="user-form-title">Add a user</h3>
         <label>Name<input name="name" required minlength="2" maxlength="80"></label>
-        <label>Username<input name="username" required minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._-]{1,28}[A-Za-z0-9]"></label>
+        <label>Username<input name="username" required minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]"></label>
         <label>Email<input name="email" type="email" required maxlength="254"></label>
         <label>Password<input name="password" type="password" autocomplete="new-password" minlength="6" maxlength="72" required><span>When editing, leave blank to keep the current password.</span></label>
         <label>Role<select name="role"><option value="user">User</option><option value="admin">Admin</option></select></label>
@@ -112,7 +112,7 @@
     <section id="allNotes-panel" class="panel" hidden>
       <h2>All notes</h2><p>Administrator read access. Changes remain restricted to each note's owner.</p>
       <form id="owner-form" class="card">
-        <label>Filter by username (optional)<input name="owner" minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._-]{1,28}[A-Za-z0-9]" placeholder="Leave blank for all users"></label>
+        <label>Filter by username (optional)<input name="owner" minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]" placeholder="Leave blank for all users"></label>
         <button type="submit">Apply filter</button>
       </form>
       <div id="allNotes-list" class="records"></div><div id="allNotes-pagination" class="pagination"></div>
