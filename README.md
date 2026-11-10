@@ -24,10 +24,9 @@ On Linux, run `npm run dev` from this directory after starting the backend, then
 
 ## Deploy the frontend
 
-1. Create a separate GitHub repository for this folder and push its contents.
-2. Import that repository into Vercel or Netlify as a static site. No build command is required; publish the repository root.
-3. Edit `config.js` and replace `https://YOUR_BACKEND_DOMAIN/api` with the live backend API URL ending in `/api`, then redeploy.
-4. Set backend `APP_ORIGIN` to the exact live frontend origin, including `https://` and without a trailing slash.
+1. Import `nayeem202/secure-notes-frontend` into Netlify as a static site. The included `netlify.toml` sets the publish directory to the repository root; no build command is needed.
+2. Note the assigned `netlify.app` origin. Set backend `APP_ORIGIN` to this exact origin, including `https://` and without a trailing slash.
+3. Edit `config.js` and replace `https://YOUR_BACKEND_DOMAIN/api` with the live backend API URL ending in `/api`, then commit and push the change. Netlify will redeploy automatically.
 
 The frontend sends short-lived JWTs in the `Authorization` header and keeps them in memory only. Reloading a separately hosted frontend requires signing in again. Tokens are not saved in browser storage.
 
