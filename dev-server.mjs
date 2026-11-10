@@ -18,18 +18,29 @@ createServer(async (req, res) => {
     return;
   }
   let pathname;
-  try { pathname = new URL(req.url, 'http://localhost').pathname; }
-  catch { res.writeHead(400).end(); return; }
+  try {
+    pathname = new URL(req.url, 'http://localhost').pathname;
+  } catch {
+    res.writeHead(400).end();
+    return;
+  }
   const asset = assets.get(pathname);
-  if (!asset) { res.writeHead(404).end(); return; }
+  if (!asset) {
+    res.writeHead(404).end();
+    return;
+  }
   try {
     const body = await readFile(resolve(root, asset[0]));
     res.writeHead(200, {
-      'Content-Type': asset[1], 'Content-Length': body.length,
-      'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff',
+      'Content-Type': asset[1],
+      'Content-Length': body.length,
+      'Cache-Control': 'no-store',
+      'X-Content-Type-Options': 'nosniff',
     });
     res.end(req.method === 'HEAD' ? undefined : body);
   } catch {
     res.writeHead(500).end();
   }
-}).listen(5500, '127.0.0.1', () => process.stdout.write('Frontend ready at http://localhost:5500\n'));
+}).listen(5500, '127.0.0.1', () =>
+  process.stdout.write('Frontend ready at http://localhost:5500\n'),
+);

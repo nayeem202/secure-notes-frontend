@@ -3,3 +3,4 @@ Thumbs.db
 .vercel/
 .vercel
 .env*
+node_modules/

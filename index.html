@@ -1,135 +1,271 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Private notes, public posts, and user administration.">
-  <title>Secure Notes</title>
-  <link rel="icon" href="data:,">
-  <link rel="stylesheet" href="/styles.css">
-  <script src="/config.js"></script>
-  <script src="/app.js" defer></script>
-</head>
-<body>
-  <header>
-    <div><h1>Secure Notes</h1><p>Private notes. Public posts.</p></div>
-    <div><p id="session-label">Not signed in</p><button id="logout" type="button" hidden>Sign out everywhere</button></div>
-  </header>
-  <main>
-    <p id="notice" role="status" aria-live="polite" hidden></p>
-    <section id="auth-section" class="card">
-      <h2 id="auth-title">Sign in</h2>
-      <form id="auth-form">
-        <label id="register-name" hidden>Name<input name="name" autocomplete="name" minlength="2" maxlength="80" disabled></label>
-        <label id="register-username" hidden>Username<input name="username" autocomplete="username" minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]" placeholder="e.g. nayeem.ahmed" disabled></label>
-        <label id="auth-identity-label">Email or username<input name="email" type="text" autocomplete="username" maxlength="254" required></label>
-        <label>Password<input name="password" type="password" autocomplete="current-password" maxlength="72" required></label>
-        <label id="register-interests" hidden>Interests, separated by commas<input name="interests" placeholder="chess, reading" disabled></label>
-        <p id="password-help" hidden>Use at least 6 characters and at most 72 UTF-8 bytes.</p>
-        <div class="actions"><button id="auth-submit" type="submit">Sign in</button><button id="toggle-auth" type="button" class="secondary">Create an account</button></div>
-      </form>
-    </section>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Private notes, public posts, and user administration." />
+    <title>Secure Notes</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/config.js"></script>
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>Secure Notes</h1>
+        <p>Private notes. Public posts.</p>
+      </div>
+      <div>
+        <p id="session-label">Not signed in</p>
+        <button id="logout" type="button" hidden>Sign out everywhere</button>
+      </div>
+    </header>
+    <main>
+      <p id="notice" role="status" aria-live="polite" hidden></p>
+      <section id="auth-section" class="card">
+        <h2 id="auth-title">Sign in</h2>
+        <form id="auth-form">
+          <label id="register-name" hidden
+            >Name<input name="name" autocomplete="name" minlength="2" maxlength="80" disabled
+          /></label>
+          <label id="register-username" hidden
+            >Username<input
+              name="username"
+              autocomplete="username"
+              minlength="3"
+              maxlength="30"
+              pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]"
+              placeholder="e.g. nayeem.ahmed"
+              disabled
+          /></label>
+          <label id="auth-identity-label"
+            >Email or username<input
+              name="email"
+              type="text"
+              autocomplete="username"
+              maxlength="254"
+              required
+          /></label>
+          <label
+            >Password<input
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              maxlength="72"
+              required
+          /></label>
+          <label id="register-interests" hidden
+            >Interests, separated by commas<input
+              name="interests"
+              placeholder="chess, reading"
+              disabled
+          /></label>
+          <p id="password-help" hidden>Use at least 6 characters and at most 72 UTF-8 bytes.</p>
+          <div class="actions">
+            <button id="auth-submit" type="submit">Sign in</button
+            ><button id="toggle-auth" type="button" class="secondary">Create an account</button>
+          </div>
+        </form>
+      </section>
 
-    <nav aria-label="Workspace">
-      <button type="button" data-view="notes" data-auth hidden>My notes</button>
-      <button type="button" data-view="posts">Public posts</button>
-      <button type="button" data-view="lookup">Posts by user</button>
-      <button type="button" data-view="account" data-auth hidden>My account</button>
-      <button type="button" data-view="users" data-admin hidden>Users</button>
-      <button type="button" data-view="allNotes" data-admin hidden>All notes</button>
-      <button type="button" data-view="interests" data-admin hidden>Interest groups</button>
-    </nav>
-    <div class="toolbar">
-      <label>Items per page<select id="page-size"><option>5</option><option selected>10</option><option>25</option><option>50</option><option>100</option></select></label>
-      <button id="refresh" type="button" class="secondary">Refresh</button>
-    </div>
+      <nav aria-label="Workspace">
+        <button type="button" data-view="notes" data-auth hidden>My notes</button>
+        <button type="button" data-view="posts">Public posts</button>
+        <button type="button" data-view="lookup">Posts by user</button>
+        <button type="button" data-view="account" data-auth hidden>My account</button>
+        <button type="button" data-view="users" data-admin hidden>Users</button>
+        <button type="button" data-view="allNotes" data-admin hidden>All notes</button>
+        <button type="button" data-view="interests" data-admin hidden>Interest groups</button>
+      </nav>
+      <div class="toolbar">
+        <label
+          >Items per page<select id="page-size">
+            <option>5</option>
+            <option selected>10</option>
+            <option>25</option>
+            <option>50</option>
+            <option>100</option>
+          </select></label
+        >
+        <button id="refresh" type="button" class="secondary">Refresh</button>
+      </div>
 
-    <section id="notes-panel" class="panel" hidden>
-      <h2>My notes</h2><p>Only you and administrators can read your notes. Only you can edit them.</p>
-      <form id="note-form" class="card">
-        <input name="id" type="hidden">
-        <h3 id="note-form-title">Create a note</h3>
-        <label>Title<input name="title" required maxlength="160"></label>
-        <label>Content<textarea name="content" rows="5" maxlength="20000"></textarea></label>
-        <div class="actions"><button type="submit">Save note</button><button id="cancel-note" type="button" class="secondary" hidden>Cancel edit</button></div>
-      </form>
-      <div id="notes-list" class="records"></div><div id="notes-pagination" class="pagination"></div>
-    </section>
+      <section id="notes-panel" class="panel" hidden>
+        <h2>My notes</h2>
+        <p>Only you and administrators can read your notes. Only you can edit them.</p>
+        <form id="note-form" class="card">
+          <input name="id" type="hidden" />
+          <h3 id="note-form-title">Create a note</h3>
+          <label>Title<input name="title" required maxlength="160" /></label>
+          <label>Content<textarea name="content" rows="5" maxlength="20000"></textarea></label>
+          <div class="actions">
+            <button type="submit">Save note</button
+            ><button id="cancel-note" type="button" class="secondary" hidden>Cancel edit</button>
+          </div>
+        </form>
+        <div id="notes-list" class="records"></div>
+        <div id="notes-pagination" class="pagination"></div>
+      </section>
 
-    <section id="posts-panel" class="panel" hidden>
-      <h2>Public posts</h2><p>Anyone can read these posts, including visitors who are not signed in.</p>
-      <form id="post-form" class="card" data-auth hidden>
-        <input name="id" type="hidden">
-        <h3 id="post-form-title">Write a public post</h3>
-        <label>Title<input name="title" required maxlength="160"></label>
-        <label>Content<textarea name="content" rows="5" required maxlength="20000"></textarea></label>
-        <div class="actions"><button type="submit">Publish post</button><button id="cancel-post" type="button" class="secondary" hidden>Cancel edit</button></div>
-      </form>
-      <div id="posts-list" class="records"></div><div id="posts-pagination" class="pagination"></div>
-    </section>
+      <section id="posts-panel" class="panel" hidden>
+        <h2>Public posts</h2>
+        <p>Anyone can read these posts, including visitors who are not signed in.</p>
+        <form id="post-form" class="card" data-auth hidden>
+          <input name="id" type="hidden" />
+          <h3 id="post-form-title">Write a public post</h3>
+          <label>Title<input name="title" required maxlength="160" /></label>
+          <label
+            >Content<textarea name="content" rows="5" required maxlength="20000"></textarea>
+          </label>
+          <div class="actions">
+            <button type="submit">Publish post</button
+            ><button id="cancel-post" type="button" class="secondary" hidden>Cancel edit</button>
+          </div>
+        </form>
+        <div id="posts-list" class="records"></div>
+        <div id="posts-pagination" class="pagination"></div>
+      </section>
 
-    <section id="lookup-panel" class="panel" hidden>
-      <h2>Posts by user</h2><p>Find a user's public posts. You can also select an author from the public feed.</p>
-      <form id="lookup-form" class="card">
-        <label>Username<input name="username" required minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]" placeholder="e.g. nayeem.ahmed"></label>
-        <button type="submit">Load user posts</button>
-      </form>
-      <p id="lookup-summary"></p><div id="lookup-list" class="records"></div><div id="lookup-pagination" class="pagination"></div>
-    </section>
+      <section id="lookup-panel" class="panel" hidden>
+        <h2>Posts by user</h2>
+        <p>Find a user's public posts. You can also select an author from the public feed.</p>
+        <form id="lookup-form" class="card">
+          <label
+            >Username<input
+              name="username"
+              required
+              minlength="3"
+              maxlength="30"
+              pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]"
+              placeholder="e.g. nayeem.ahmed"
+          /></label>
+          <button type="submit">Load user posts</button>
+        </form>
+        <p id="lookup-summary"></p>
+        <div id="lookup-list" class="records"></div>
+        <div id="lookup-pagination" class="pagination"></div>
+      </section>
 
-    <section id="account-panel" class="panel" hidden>
-      <h2>My account</h2><p id="account-details"></p>
-      <form id="profile-form" class="card">
-        <label>Name<input name="name" required minlength="2" maxlength="80"></label>
-        <label>Username<input name="username" required minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]"></label>
-        <label>Interests, separated by commas<input name="interests"></label>
-        <button type="submit">Update profile</button>
-      </form>
-      <form id="password-form" class="card">
-        <h3>Change password</h3><p>This signs out your other sessions.</p>
-        <label>Current password<input name="currentPassword" type="password" autocomplete="current-password" required></label>
-        <label>New password<input name="newPassword" type="password" autocomplete="new-password" minlength="6" maxlength="72" required></label>
-        <button type="submit">Change password</button>
-      </form>
-    </section>
+      <section id="account-panel" class="panel" hidden>
+        <h2>My account</h2>
+        <p id="account-details"></p>
+        <form id="profile-form" class="card">
+          <label>Name<input name="name" required minlength="2" maxlength="80" /></label>
+          <label
+            >Username<input
+              name="username"
+              required
+              minlength="3"
+              maxlength="30"
+              pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]"
+          /></label>
+          <label>Interests, separated by commas<input name="interests" /></label>
+          <button type="submit">Update profile</button>
+        </form>
+        <form id="password-form" class="card">
+          <h3>Change password</h3>
+          <p>This signs out your other sessions.</p>
+          <label
+            >Current password<input
+              name="currentPassword"
+              type="password"
+              autocomplete="current-password"
+              required
+          /></label>
+          <label
+            >New password<input
+              name="newPassword"
+              type="password"
+              autocomplete="new-password"
+              minlength="6"
+              maxlength="72"
+              required
+          /></label>
+          <button type="submit">Change password</button>
+        </form>
+      </section>
 
-    <section id="users-panel" class="panel" hidden>
-      <h2>User administration</h2>
-      <form id="user-form" class="card">
-        <input name="id" type="hidden"><h3 id="user-form-title">Add a user</h3>
-        <label>Name<input name="name" required minlength="2" maxlength="80"></label>
-        <label>Username<input name="username" required minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]"></label>
-        <label>Email<input name="email" type="email" required maxlength="254"></label>
-        <label>Password<input name="password" type="password" autocomplete="new-password" minlength="6" maxlength="72" required><span>When editing, leave blank to keep the current password.</span></label>
-        <label>Role<select name="role"><option value="user">User</option><option value="admin">Admin</option></select></label>
-        <label>Interests, separated by commas<input name="interests"></label>
-        <label id="user-active-label" hidden><input name="isActive" type="checkbox" checked> Account active</label>
-        <div class="actions"><button type="submit">Save user</button><button id="cancel-user" type="button" class="secondary" hidden>Cancel edit</button></div>
-      </form>
-      <div id="users-list" class="records"></div><div id="users-pagination" class="pagination"></div>
-    </section>
+      <section id="users-panel" class="panel" hidden>
+        <h2>User administration</h2>
+        <form id="user-form" class="card">
+          <input name="id" type="hidden" />
+          <h3 id="user-form-title">Add a user</h3>
+          <label>Name<input name="name" required minlength="2" maxlength="80" /></label>
+          <label
+            >Username<input
+              name="username"
+              required
+              minlength="3"
+              maxlength="30"
+              pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]"
+          /></label>
+          <label>Email<input name="email" type="email" required maxlength="254" /></label>
+          <label
+            >Password<input
+              name="password"
+              type="password"
+              autocomplete="new-password"
+              minlength="6"
+              maxlength="72"
+              required
+            /><span>When editing, leave blank to keep the current password.</span></label
+          >
+          <label
+            >Role<select name="role">
+              <option value="user">User</option>
+              <option value="admin">Admin</option>
+            </select></label
+          >
+          <label>Interests, separated by commas<input name="interests" /></label>
+          <label id="user-active-label" hidden
+            ><input name="isActive" type="checkbox" checked /> Account active</label
+          >
+          <div class="actions">
+            <button type="submit">Save user</button
+            ><button id="cancel-user" type="button" class="secondary" hidden>Cancel edit</button>
+          </div>
+        </form>
+        <div id="users-list" class="records"></div>
+        <div id="users-pagination" class="pagination"></div>
+      </section>
 
-    <section id="allNotes-panel" class="panel" hidden>
-      <h2>All notes</h2><p>Administrator read access. Changes remain restricted to each note's owner.</p>
-      <form id="owner-form" class="card">
-        <label>Filter by username (optional)<input name="owner" minlength="3" maxlength="30" pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]" placeholder="Leave blank for all users"></label>
-        <button type="submit">Apply filter</button>
-      </form>
-      <div id="allNotes-list" class="records"></div><div id="allNotes-pagination" class="pagination"></div>
-    </section>
+      <section id="allNotes-panel" class="panel" hidden>
+        <h2>All notes</h2>
+        <p>Administrator read access. Changes remain restricted to each note's owner.</p>
+        <form id="owner-form" class="card">
+          <label
+            >Filter by username (optional)<input
+              name="owner"
+              minlength="3"
+              maxlength="30"
+              pattern="[A-Za-z0-9][A-Za-z0-9._\-]{1,28}[A-Za-z0-9]"
+              placeholder="Leave blank for all users"
+          /></label>
+          <button type="submit">Apply filter</button>
+        </form>
+        <div id="allNotes-list" class="records"></div>
+        <div id="allNotes-pagination" class="pagination"></div>
+      </section>
 
-    <section id="interests-panel" class="panel" hidden>
-      <h2>Users grouped by interest</h2><p>Each user counts once per interest. Accounts without interests do not appear.</p>
-      <form id="interest-form" class="card">
-        <label>Exact interest (optional)<input name="interest" maxlength="40" placeholder="chess"></label>
-        <button type="submit">Group users</button>
-      </form>
-      <div id="interests-list" class="records"></div><div id="interests-pagination" class="pagination"></div>
-    </section>
-  </main>
-  <dialog id="record-dialog">
-    <h2 id="record-title"></h2><p id="record-meta"></p><pre id="record-content"></pre>
-    <button id="close-dialog" type="button">Close</button>
-  </dialog>
-</body>
+      <section id="interests-panel" class="panel" hidden>
+        <h2>Users grouped by interest</h2>
+        <p>Each user counts once per interest. Accounts without interests do not appear.</p>
+        <form id="interest-form" class="card">
+          <label
+            >Exact interest (optional)<input name="interest" maxlength="40" placeholder="chess"
+          /></label>
+          <button type="submit">Group users</button>
+        </form>
+        <div id="interests-list" class="records"></div>
+        <div id="interests-pagination" class="pagination"></div>
+      </section>
+    </main>
+    <dialog id="record-dialog">
+      <h2 id="record-title"></h2>
+      <p id="record-meta"></p>
+      <pre id="record-content"></pre>
+      <button id="close-dialog" type="button">Close</button>
+    </dialog>
+  </body>
 </html>
