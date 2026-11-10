@@ -5,7 +5,7 @@ const apiBaseUrl = (window.SECURE_NOTES_API_BASE_URL || '/api').replace(/\/$/, '
 const state = {
   user: null, accessToken: null, view: 'posts', register: false, limit: 10,
   pages: { notes: 1, posts: 1, lookup: 1, users: 1, allNotes: 1, interests: 1 },
-  lookupUsername: '', owner: '', interest: '', loadVersion: 0,
+  lookupUsername: '', owner: '', interest: '', memberPage: 1, loadVersion: 0,
 };
 const fields = form => form.elements;
 const parseInterests = value => value.split(',').map(item => item.trim()).filter(Boolean);
@@ -58,7 +58,7 @@ function setUser(user, accessToken = state.accessToken) {
     fields($('profile-form')).username.value = user.username;
     fields($('profile-form')).interests.value = user.interests.join(', ');
   } else {
-    // Clear private DOM data on logout/session expiry, including hidden panels.
+
     for (const view of ['notes', 'users', 'allNotes', 'interests']) {
       $(`${view}-list`).replaceChildren();
       $(`${view}-pagination`).replaceChildren();
@@ -215,6 +215,22 @@ function userCard(user) {
     `@${user.username} · ${user.role} · ${user.isActive ? 'Active' : 'Inactive'}`, buttons);
 }
 
+function interestCard(item) {
+  const moveUsers = direction => async () => {
+    state.interest = item.interest;
+    fields($('interest-form')).interest.value = item.interest;
+    state.memberPage = item.usersPagination.page + direction;
+    state.pages.interests = 1;
+    await loadView();
+  };
+  const buttons = [];
+  if (item.usersPagination.hasPreviousPage) buttons.push(action('Previous users', moveUsers(-1)));
+  if (item.usersPagination.hasNextPage) buttons.push(action('Next users', moveUsers(1)));
+  const names = item.users.map(user => `@${user.username}`).join(', ') || 'No users on this page.';
+  return card(item.interest, `${item.userCount} users\n${names}`,
+    `Users page ${item.usersPagination.page} of ${item.usersPagination.totalPages || 1}`, buttons);
+}
+
 async function loadView(afterDelete = false) {
   const view = state.view;
   const loadVersion = ++state.loadVersion;
@@ -226,17 +242,22 @@ async function loadView(afterDelete = false) {
   if (view === 'lookup') path = `/users/${encodeURIComponent(state.lookupUsername)}/posts`;
   if (view === 'users') path = '/admin/users';
   if (view === 'allNotes') { path = '/admin/notes'; if (state.owner) query.set('owner', state.owner); }
-  if (view === 'interests') { path = '/admin/analytics/interests'; if (state.interest) query.set('interest', state.interest); }
+  if (view === 'interests') {
+    path = '/admin/analytics/interests';
+    if (state.interest) query.set('interest', state.interest);
+    query.set('memberPage', state.memberPage);
+    query.set('memberLimit', state.limit);
+  }
   const result = await api(`${path}?${query}`);
-  // Ignore stale responses after a tab switch, another load, or logout.
+
   if (loadVersion !== state.loadVersion || state.view !== view) return;
   if (afterDelete && !result.data.length && state.pages[view] > 1) {
     state.pages[view] = Math.max(1, result.pagination.totalPages); return loadView();
   }
-  if (view === 'lookup') $('lookup-summary').textContent = `${result.user.name} · ${result.pagination.total} public posts`;
+  if (view === 'lookup') $('lookup-summary').textContent = `@${result.user.username} · ${result.pagination.total} public posts`;
   renderList(view, result.data, item => {
     if (view === 'users') return userCard(item);
-    if (view === 'interests') return card(item.interest, `${item.userCount} users`, '');
+    if (view === 'interests') return interestCard(item);
     return recordCard(['posts', 'lookup'].includes(view) ? 'post' : 'note', item, view === 'allNotes');
   });
   renderPagination(view, result.pagination);
@@ -302,7 +323,7 @@ onSubmit('owner-form', async data => {
   state.owner = data.get('owner').trim(); state.pages.allNotes = 1; await loadView();
 });
 onSubmit('interest-form', async data => {
-  state.interest = data.get('interest').trim(); state.pages.interests = 1; await loadView();
+  state.interest = data.get('interest').trim(); state.pages.interests = 1; state.memberPage = 1; await loadView();
 });
 onSubmit('profile-form', async data => {
   const result = await api('/auth/me', { method: 'PATCH', body: {
@@ -339,6 +360,7 @@ $('close-dialog').addEventListener('click', () => $('record-dialog').close());
 $('refresh').addEventListener('click', () => { void loadView().catch(error => notice(error.message, true)); });
 $('page-size').addEventListener('change', () => {
   state.limit = Number($('page-size').value);
+  state.memberPage = 1;
   Object.keys(state.pages).forEach(key => { state.pages[key] = 1; });
   void loadView().catch(error => notice(error.message, true));
 });

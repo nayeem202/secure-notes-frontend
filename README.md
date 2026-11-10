@@ -52,6 +52,6 @@ The frontend sends short-lived JWTs in the `Authorization` header and keeps them
 - Register with a unique username and sign in with username or email
 - Create, read, update, and delete private notes
 - Read public posts and create or manage your own posts
-- Look up public posts by username
-- Admin user management, all-notes view, and interest groups
+- Look up public posts by username without exposing profile names, email addresses, or interests
+- Admin user management, all-notes view, and interest groups with paginated member usernames
 - Paginated lists and API error messages
